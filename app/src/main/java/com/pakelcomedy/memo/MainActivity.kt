@@ -11,8 +11,8 @@ import com.pakelcomedy.memo.viewmodel.NoteViewModelFactory
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var noteViewModel: NoteViewModel
-    lateinit var binding: ActivityMainBinding
+    private lateinit var noteViewModel: NoteViewModel
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUpViewModel() {
-        val noteRepository = NoteRepository(NoteDatabase(this))
+        val noteRepository = NoteRepository(NoteDatabase.getDatabase(this))
         val viewModelProviderFactory = NoteViewModelFactory(application, noteRepository)
 
         noteViewModel = ViewModelProvider(
