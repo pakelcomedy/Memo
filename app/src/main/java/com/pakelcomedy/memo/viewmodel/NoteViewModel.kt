@@ -1,20 +1,18 @@
-package com.eneskaen.notesapp.viewmodel
+package com.pakelcomedy.memo.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.room.Query
-import com.eneskaen.notesapp.model.Note
-import com.eneskaen.notesapp.repository.NoteRepository
+import com.pakelcomedy.memo.model.Note
+import com.pakelcomedy.memo.repository.NoteRepository
 import kotlinx.coroutines.launch
 
 class NoteViewModel(
     app: Application,
-    private val noteRepository: NoteRepository):
-    AndroidViewModel(app) {
+    private val noteRepository: NoteRepository
+) : AndroidViewModel(app) {
 
-    fun addNote(note : Note) = viewModelScope.launch {
+    fun addNote(note: Note) = viewModelScope.launch {
         noteRepository.insertNote(note)
     }
 
@@ -29,5 +27,4 @@ class NoteViewModel(
     fun getAllNotes() = noteRepository.getAllNotes()
 
     fun searchNote(query: String?) = noteRepository.searchNote(query)
-
 }
