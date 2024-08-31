@@ -1,23 +1,18 @@
 package com.pakelcomedy.memo
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import com.eneskaen.notesapp.database.NoteDatabase
-import com.eneskaen.notesapp.databinding.ActivityMainBinding
-import com.eneskaen.notesapp.repository.NoteRepository
-import com.eneskaen.notesapp.viewmodel.NoteViewModel
-import com.eneskaen.notesapp.viewmodel.NoteViewModelFactory
+import com.pakelcomedy.memo.database.NoteDatabase
+import com.pakelcomedy.memo.databinding.ActivityMainBinding
+import com.pakelcomedy.memo.repository.NoteRepository
+import com.pakelcomedy.memo.viewmodel.NoteViewModel
+import com.pakelcomedy.memo.viewmodel.NoteViewModelFactory
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var noteViewModel: NoteViewModel
     lateinit var binding: ActivityMainBinding
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
         noteViewModel = ViewModelProvider(
             this,
-            viewModelProviderFactory)
-            .get(NoteViewModel::class.java)
+            viewModelProviderFactory
+        ).get(NoteViewModel::class.java)
     }
 }
