@@ -1,16 +1,29 @@
-package com.eneskaen.notesapp.viewmodel
+package com.pakelcomedy.memo.database
 
-import android.app.Application
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.eneskaen.notesapp.repository.NoteRepository
+import androidx.lifecycle.LiveData
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Update
+import com.pakelcomedy.memo.model.Note
 
-class NoteViewModelFactory(
-    val app: Application,
-    private val noteRepository: NoteRepository
-): ViewModelProvider.Factory {
+@Dao
+interface NoteDAO {
 
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return NoteViewModel(app, noteRepository) as T
-    }
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertNote(note: Note)
+
+    @Delete
+    suspend fun deleteNote(note: Note)
+
+    @Update
+    suspend fun updateNote(note: Note)
+
+    @Query("SELECT * FROM notes ORDER BY id DESC")
+    fun getAllNotes(): LiveData<List<Note>>
+
+    @Query("SELECT * FROM notes WHERE noteTitle LIKE :query OR noteBody LIKE :query")
+    fun searchNote(query: String?): LiveData<List<Note>>
 }

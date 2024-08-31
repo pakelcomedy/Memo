@@ -1,22 +1,35 @@
 plugins {
-    id("com.android.application")
+    id("com.android.application") version "8.5.1"
     id("org.jetbrains.kotlin.android") version "1.9.0"
+    kotlin("kapt") // Apply the kapt plugin
 }
 
 android {
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.pakelcomedy.memo"
         minSdk = 21
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    // Add the namespace property
     namespace = "com.pakelcomedy.memo"
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+
+    buildFeatures {
+        dataBinding = true
+    }
 
     buildTypes {
         getByName("release") {
@@ -27,6 +40,11 @@ android {
             )
         }
     }
+
+    // Ensure schema export directory is configured if you need schema export
+    kotlinOptions {
+        freeCompilerArgs = listOf("-Xopt-in=kotlin.RequiresOptIn")
+    }
 }
 
 dependencies {
@@ -35,6 +53,12 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.7.0")
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.1")
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.1")
+    implementation("androidx.room:room-runtime:2.6.0")
+    implementation("androidx.room:room-ktx:2.6.0") // Add room-ktx for coroutine support
+    kapt("androidx.room:room-compiler:2.6.0")
+
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

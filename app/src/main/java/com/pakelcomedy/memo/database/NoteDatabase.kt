@@ -9,7 +9,7 @@ import com.pakelcomedy.memo.model.Note
 @Database(entities = [Note::class], version = 1)
 abstract class NoteDatabase : RoomDatabase() {
 
-    abstract fun getNoteDao(): NoteDAO
+    abstract fun noteDAO(): NoteDAO  // Ensure this matches the DAO method name
 
     companion object {
         @Volatile
