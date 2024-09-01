@@ -1,5 +1,6 @@
 package com.pakelcomedy.memo.fragments
 
+import NoteViewModel
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -7,14 +8,11 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.pakelcomedy.memo.MainActivity
 import com.pakelcomedy.memo.R
-import com.pakelcomedy.memo.adapter.NoteAdapter
-import com.pakelcomedy.memo.databinding.FragmentHomeBinding
 import com.pakelcomedy.memo.databinding.FragmentNewNoteBinding
 import com.pakelcomedy.memo.model.Note
 import com.pakelcomedy.memo.viewmodel.NoteViewModel
@@ -25,7 +23,6 @@ class NewNoteFragment : Fragment(R.layout.fragment_new_note) {
     private val binding get() = _binding!!
 
     private lateinit var notesViewModel: NoteViewModel
-    private lateinit var noteAdapter: NoteAdapter
 
     private lateinit var mView: View
 
@@ -37,7 +34,7 @@ class NewNoteFragment : Fragment(R.layout.fragment_new_note) {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentNewNoteBinding.inflate(inflater, container, false)
         return binding.root
@@ -65,7 +62,6 @@ class NewNoteFragment : Fragment(R.layout.fragment_new_note) {
         } else {
             Toast.makeText(mView.context, "Please enter note title!", Toast.LENGTH_LONG).show()
         }
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -74,8 +70,8 @@ class NewNoteFragment : Fragment(R.layout.fragment_new_note) {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 

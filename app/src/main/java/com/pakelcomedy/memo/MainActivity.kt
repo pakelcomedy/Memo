@@ -1,7 +1,11 @@
 package com.pakelcomedy.memo
 
 import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.pakelcomedy.memo.database.NoteDatabase
 import com.pakelcomedy.memo.databinding.ActivityMainBinding
@@ -11,8 +15,8 @@ import com.pakelcomedy.memo.viewmodel.NoteViewModelFactory
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var noteViewModel: NoteViewModel
-    private lateinit var binding: ActivityMainBinding
+    lateinit var noteViewModel: NoteViewModel
+    lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,11 +27,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUpViewModel() {
-        val noteDatabase = NoteDatabase.getDatabase(this)
-        val noteRepository = NoteRepository(noteDatabase.noteDao())
-        val viewModelProviderFactory = NoteViewModelFactory(noteRepository)
+        val noteRepository = NoteRepository(NoteDatabase(this))
+        val viewModelProviderFactory = NoteViewModelFactory(application, noteRepository)
 
-        noteViewModel = ViewModelProvider(this, viewModelProviderFactory)
+        noteViewModel = ViewModelProvider(
+            this,
+            viewModelProviderFactory)
             .get(NoteViewModel::class.java)
     }
 }
