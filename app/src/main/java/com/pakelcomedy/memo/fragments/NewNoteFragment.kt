@@ -1,6 +1,5 @@
 package com.pakelcomedy.memo.fragments
 
-import NoteViewModel
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -13,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.pakelcomedy.memo.MainActivity
 import com.pakelcomedy.memo.R
+import com.pakelcomedy.memo.adapter.NoteAdapter
 import com.pakelcomedy.memo.databinding.FragmentNewNoteBinding
 import com.pakelcomedy.memo.model.Note
 import com.pakelcomedy.memo.viewmodel.NoteViewModel
@@ -23,7 +23,6 @@ class NewNoteFragment : Fragment(R.layout.fragment_new_note) {
     private val binding get() = _binding!!
 
     private lateinit var notesViewModel: NoteViewModel
-
     private lateinit var mView: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +33,7 @@ class NewNoteFragment : Fragment(R.layout.fragment_new_note) {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentNewNoteBinding.inflate(inflater, container, false)
         return binding.root
@@ -47,7 +46,7 @@ class NewNoteFragment : Fragment(R.layout.fragment_new_note) {
         mView = view
     }
 
-    private fun saveNote(view: View) {
+    private fun saveNote() {
         val noteTitle = binding.etNoteTitle.text.toString().trim()
         val noteBody = binding.etNoteBody.text.toString().trim()
 
@@ -58,29 +57,30 @@ class NewNoteFragment : Fragment(R.layout.fragment_new_note) {
 
             Toast.makeText(mView.context, "Note saved.", Toast.LENGTH_LONG).show()
 
-            view.findNavController().navigate(R.id.action_newNoteFragment_to_homeFragment)
+            mView.findNavController().navigate(R.id.action_newNoteFragment_to_homeFragment)
         } else {
             Toast.makeText(mView.context, "Please enter note title!", Toast.LENGTH_LONG).show()
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
         menu.clear()
         inflater.inflate(R.menu.menu_new_note, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
+        return when (item.itemId) {
             R.id.menu_save -> {
-                saveNote(mView)
+                saveNote()
+                true
             }
+            else -> super.onOptionsItemSelected(item)
         }
-        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

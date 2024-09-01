@@ -12,13 +12,12 @@ import com.pakelcomedy.memo.fragments.HomeFragmentDirections
 import com.pakelcomedy.memo.model.Note
 import java.util.Random
 
-class NoteAdapter: RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
+class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
 
-    class NoteViewHolder(val itemBinding: NoteItemLayoutBinding):
+    class NoteViewHolder(val itemBinding: NoteItemLayoutBinding) :
         RecyclerView.ViewHolder(itemBinding.root)
 
     private val differCallback = object : DiffUtil.ItemCallback<Note>() {
-
         override fun areItemsTheSame(oldItem: Note, newItem: Note): Boolean {
             return oldItem.id == newItem.id &&
                     oldItem.noteBody == newItem.noteBody &&
@@ -56,7 +55,7 @@ class NoteAdapter: RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
 
         holder.itemBinding.ibColor.setBackgroundColor(color)
 
-        holder.itemView.setOnClickListener{
+        holder.itemView.setOnClickListener {
             val direction = HomeFragmentDirections.actionHomeFragmentToUpdateNoteFragment(currentNote)
             it.findNavController().navigate(direction)
         }

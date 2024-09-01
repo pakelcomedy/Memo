@@ -5,7 +5,7 @@ import com.pakelcomedy.memo.model.Note
 
 class NoteRepository(private val db: NoteDatabase) {
 
-    suspend fun insertNote(note: Note) = db.getNoteDAO().insertNote(note)
+    suspend fun insertNote(note: Note) = db.getNoteDao().insertNote(note)
 
     suspend fun deleteNote(note: Note) = db.getNoteDao().deleteNote(note)
 
@@ -14,5 +14,4 @@ class NoteRepository(private val db: NoteDatabase) {
     fun getAllNotes() = db.getNoteDao().getAllNotes()
 
     fun searchNote(query: String?) = db.getNoteDao().searchNote(query)
-
 }
