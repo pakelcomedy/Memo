@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
 
         noteViewModel = ViewModelProvider(
             this,
-            viewModelProviderFactory)
-            .get(NoteViewModel::class.java)
+            viewModelProviderFactory
+        ).get(NoteViewModel::class.java)
     }
 }
