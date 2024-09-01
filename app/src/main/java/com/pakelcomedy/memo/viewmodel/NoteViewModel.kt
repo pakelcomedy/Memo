@@ -1,5 +1,3 @@
-package com.pakelcomedy.memo.viewmodel
-
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,23 +6,27 @@ import com.pakelcomedy.memo.repository.NoteRepository
 import kotlinx.coroutines.launch
 
 class NoteViewModel(
-    app: Application,
-    private val noteRepository: NoteRepository
-) : AndroidViewModel(app) {
+    application: Application,
+    private val repository: NoteRepository
+) : AndroidViewModel(application) {
 
-    fun addNote(note: Note) = viewModelScope.launch {
-        noteRepository.insertNote(note)
+    val allNotes = repository.allNotes
+
+    fun addNote(note: Note) {
+        viewModelScope.launch {
+            repository.insert(note)
+        }
     }
 
-    fun deleteNote(note: Note) = viewModelScope.launch {
-        noteRepository.deleteNote(note)
+    fun deleteNote(note: Note) {
+        viewModelScope.launch {
+            repository.delete(note)
+        }
     }
 
-    fun updateNote(note: Note) = viewModelScope.launch {
-        noteRepository.updateNote(note)
+    fun updateNote(note: Note) {
+        viewModelScope.launch {
+            repository.update(note)
+        }
     }
-
-    fun getAllNotes() = noteRepository.getAllNotes()
-
-    fun searchNote(query: String?) = noteRepository.searchNote(query)
 }

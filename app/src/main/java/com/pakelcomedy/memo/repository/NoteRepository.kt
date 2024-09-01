@@ -1,19 +1,22 @@
 package com.pakelcomedy.memo.repository
 
-import androidx.room.Query
-import com.eneskaen.notesapp.database.NoteDatabase
-import com.eneskaen.notesapp.model.Note
+import com.pakelcomedy.memo.database.NoteDAO
+import com.pakelcomedy.memo.model.Note
+import kotlinx.coroutines.flow.Flow
 
-class NoteRepository(private  val db : NoteDatabase) {
+class NoteRepository(private val noteDao: NoteDAO) {
 
-    suspend fun insertNote(note : Note) = db.getNoteDao().insertNote(note)
+    val allNotes: Flow<List<Note>> = noteDao.getAllNotes()
 
-    suspend fun deleteNote(note: Note) = db.getNoteDao().deleteNote(note)
+    suspend fun insert(note: Note) {
+        noteDao.insertNote(note)
+    }
 
-    suspend fun updateNote(note: Note) = db.getNoteDao().updateNote(note)
+    suspend fun delete(note: Note) {
+        noteDao.deleteNote(note)
+    }
 
-    fun getAllNotes() = db.getNoteDao().getAllNotes()
-
-    fun searchNote(query: String?) = db.getNoteDao().searchNote(query)
-
+    suspend fun update(note: Note) {
+        noteDao.updateNote(note)
+    }
 }

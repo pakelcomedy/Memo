@@ -6,27 +6,25 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.pakelcomedy.memo.model.Note
 
-@Database(entities = [Note::class], version = 1)
+@Database(entities = [Note::class], version = 1, exportSchema = false)
 abstract class NoteDatabase : RoomDatabase() {
 
-    abstract fun noteDAO(): NoteDAO  // Ensure this matches the DAO method name
+    abstract fun noteDao(): NoteDAO
 
     companion object {
         @Volatile
-        private var instance: NoteDatabase? = null
-        private val LOCK = Any()
+        private var INSTANCE: NoteDatabase? = null
 
-        operator fun invoke(context: Context) = instance ?: synchronized(LOCK) {
-            instance ?: createDatabase(context).also {
-                instance = it
+        fun getDatabase(context: Context): NoteDatabase {
+            return INSTANCE ?: synchronized(this) {
+                val instance = Room.databaseBuilder(
+                    context.applicationContext,
+                    NoteDatabase::class.java,
+                    "note_database"
+                ).build()
+                INSTANCE = instance
+                instance
             }
         }
-
-        private fun createDatabase(context: Context) =
-            Room.databaseBuilder(
-                context.applicationContext,
-                NoteDatabase::class.java,
-                "note_db"
-            ).build()
     }
 }
